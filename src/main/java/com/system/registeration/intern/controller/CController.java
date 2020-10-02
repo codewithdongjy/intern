@@ -2,6 +2,10 @@ package com.system.registeration.intern.controller;
 
 import com.system.registeration.intern.bean.*;
 import com.system.registeration.intern.service.CService;
+import com.system.registeration.intern.service.UserService;
+import com.system.registeration.intern.shiro.MallToken;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,8 @@ public class CController {
 
     @Autowired
     CService cService;
+    @Autowired
+    UserService userService;
     /**
      * 1.活动列表页面
      * 用户通过点击“活动”进入活动列表页面，默认显示用户所有活动，
@@ -29,7 +35,12 @@ public class CController {
     @RequestMapping("C/activity/showdefaultactivities")
     public BaseRespVo getCUserActivities() {
         //TODO userId
-        Integer userId=1;
+        //Integer userId=1;
+        Subject subject = SecurityUtils.getSubject();
+        Object principal = subject.getPrincipal();
+        MallToken token=(MallToken) principal;
+        String userName=token.getUsername();
+        Integer userId=userService.selectUserIdByUserName(userName);
         List<ActivitySelectedByC> activityList=cService.getCActivities(userId);
         /*List<Map> activityList = new LinkedList<>();
         Map<String, ActivityShowInC> activityMap = new HashMap();*/
@@ -46,7 +57,8 @@ public class CController {
     //TODO: userId 的获取
     @RequestMapping("C/activity/showactivitiesdetails")
     public BaseRespVo showDetails(Integer activityId){
-        Integer userId=1;
+        //Integer userId=1;
+
         return cService.getActivityDetails(activityId);
 
     }
@@ -60,9 +72,28 @@ public class CController {
     @RequestMapping("C/activity/usersignup")
     public BaseRespVo userSignUp(Integer activityId){
         //TODO id通过权限控制获得
-        Integer userId=1;
-
+//        Integer userId=1;
+        Subject subject = SecurityUtils.getSubject();
+        Object principal = subject.getPrincipal();
+        MallToken token=(MallToken) principal;
+        String userName=token.getUsername();
+        Integer userId=userService.selectUserIdByUserName(userName);
         return cService.signUpActivity(activityId,userId);
+
+    }
+    /**
+     * C端用户签到
+     */
+    @RequestMapping("C/activity/usersignin")
+    public BaseRespVo userSignIn(Integer activityId){
+        //TODO id通过权限控制获得
+//        Integer userId=1;
+        Subject subject = SecurityUtils.getSubject();
+        Object principal = subject.getPrincipal();
+        MallToken token=(MallToken) principal;
+        String userName=token.getUsername();
+        Integer userId=userService.selectUserIdByUserName(userName);
+        return cService.signInActivity(activityId,userId);
 
     }
 }

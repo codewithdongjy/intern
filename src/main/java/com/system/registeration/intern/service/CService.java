@@ -13,4 +13,6 @@ public interface CService {
     BaseRespVo getActivityDetails(Integer activityId);
 
     BaseRespVo signUpActivity(Integer activityId, Integer userId);
+
+    BaseRespVo signInActivity(Integer activityId, Integer userId);
 }

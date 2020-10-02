@@ -4,6 +4,9 @@ import com.system.registeration.intern.bean.Activity;
 import com.system.registeration.intern.bean.BaseRespVo;
 import com.system.registeration.intern.service.ActivityService;
 import com.system.registeration.intern.service.UserService;
+import com.system.registeration.intern.shiro.MallToken;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,8 +47,13 @@ public class BController {
     @RequestMapping("B/activity/showBActivity")
     public BaseRespVo showBActivityList() {
         //TODO id
-        Integer id = 1;
-        return activityService.showBActivity(id);
+        //Integer id = 1;
+        Subject subject = SecurityUtils.getSubject();
+        Object principal = subject.getPrincipal();
+        MallToken token=(MallToken) principal;
+        String userName=token.getUsername();
+        Integer userId=userService.selectUserIdByUserName(userName);
+        return activityService.showBActivity(userId);
     }
     /**
      * 点击菜单“活动”进入活动管理页面
@@ -68,7 +76,21 @@ public class BController {
     @RequestMapping("B/activity/checkActivity")
     public BaseRespVo BcheckActivity(Integer activityId) {
         //TODO userID
-        Integer userId = 1;
+        //Integer userId = 1;
+        Subject subject = SecurityUtils.getSubject();
+        Object principal = subject.getPrincipal();
+        MallToken token=(MallToken) principal;
+        String userName=token.getUsername();
+        Integer userId=userService.selectUserIdByUserName(userName);
         return activityService.selectSignUpUser(userId,activityId);
+    }
+    /**
+     * P端用户查看本平台所有活动
+     */
+    @RequestMapping("P/activity/checkActivity")
+    public BaseRespVo PcheckActivity() {
+        //TODO userID
+//        Integer userId = 1;
+        return activityService.selectPActivity();
     }
 }

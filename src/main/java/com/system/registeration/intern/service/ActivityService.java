@@ -12,4 +12,6 @@ public interface ActivityService {
     BaseRespVo showBActivity(Integer userId);
 
     BaseRespVo updateActivity(Activity activity);
+
+    BaseRespVo selectPActivity();
 }

@@ -138,6 +138,24 @@ public class CServiceImpl implements CService {
         }
     }
 
+    /**
+     * C端用户签到
+     * @param activityId
+     * @param userId
+     * @return
+     */
+
+    @Override
+    public BaseRespVo signInActivity(Integer activityId, Integer userId) {
+        UserActivities activityDetails=userActivitiesMapper.setSignIn( activityId, userId);
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setData(activityDetails);
+        baseRespVo.setErrno(0);
+        baseRespVo.setMsg("签到成功");
+
+        return baseRespVo;
+    }
+
     private ActivityDetails getActivityDetail(Activity activity) {
         ActivityDetails activityDetails = new ActivityDetails();
         activityDetails.setActivityName(activity.getActivityName());

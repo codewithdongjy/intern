@@ -31,4 +31,7 @@ public interface UserMapper {
 
     Integer findUserByName(String username);
 
+    List<String> selectPasswordByName(String username);
+
+    Integer selectUserIbByName(String userName);
 }

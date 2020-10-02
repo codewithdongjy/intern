@@ -37,4 +37,6 @@ public interface ActivityMapper {
     List<Activity> selectActivityListByUsername(String userName);
 
     List<Integer> selectuserIdBycreateUserIdAndActivityId( Integer createUserId, Integer activityId);
+
+    List<Activity> selectAllActivity();
 }

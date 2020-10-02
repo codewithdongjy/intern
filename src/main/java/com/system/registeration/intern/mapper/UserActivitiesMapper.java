@@ -30,4 +30,6 @@ public interface UserActivitiesMapper {
     int updateByPrimaryKey(UserActivities record);
 
     UserActivities selectByActivityIdAndUserId(Integer activityId, Integer userId);
+
+    UserActivities setSignIn(@Param("activityId") Integer activityId, @Param("userId")Integer userId);
 }

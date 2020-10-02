@@ -1,19 +1,22 @@
 package com.system.registeration.intern.service;
 
-import com.system.registeration.intern.bean.BaseRespVo;
-import com.system.registeration.intern.bean.User;
-import com.system.registeration.intern.bean.UserExample;
+import com.system.registeration.intern.bean.*;
+import com.system.registeration.intern.mapper.PermissionMapper;
 import com.system.registeration.intern.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
+    @Resource
+    PermissionMapper pMapper;
     /**
      * 注册
      * @param user
@@ -69,6 +72,34 @@ public class UserServiceImpl implements UserService {
             return result;
 
         }
+
+    @Override
+    public List<String> selectPermissionByUsername(String username) {
+      UserExample adminExample = new UserExample();
+        adminExample.createCriteria().andUsernameEqualTo(username);
+        List<User> admins = userMapper.selectByExample(adminExample);
+        Integer[] roleIds = admins.get(0).getGroupid();
+
+
+        ArrayList<String> peimissionList = new ArrayList<String>();
+        for (Integer roleId:roleIds){
+
+            PermissionExample permissionExample = new PermissionExample();
+            permissionExample.createCriteria().andRoleIdEqualTo(roleId);
+            List<Permission> permissions = pMapper.selectByExample(permissionExample);
+            for (Permission permission:permissions){
+                peimissionList.add(permission.getPermission());
+            }
+        }
+        return peimissionList;
+    }
+
+    @Override
+    public Integer selectUserIdByUserName(String userName) {
+        Integer id=userMapper.selectUserIbByName(userName);
+
+        return id;
+    }
 
 
 }

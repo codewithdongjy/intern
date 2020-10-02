@@ -211,4 +211,9 @@
     <select id="selectByActivityIdAndUserId" resultType="com.system.registeration.intern.bean.UserActivities">
         select id,activity_id,user_id,sign_up,sign_in from user_activities where activity_id=#{param1} and user_id=#{param2}
     </select>
+  <update id="setSignIn" parameterType="com.system.registeration.intern.bean.UserActivities">
+ update user_activities
+    set sign_in = #{signIn,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER},
+  </update>
 </mapper>

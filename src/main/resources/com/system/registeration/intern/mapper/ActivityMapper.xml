@@ -422,7 +422,7 @@
         <result column="sign_up_num" property="signUpNum"/>
     </resultMap>
     <select id="selectActivityListByUsername" resultMap="activityResultMap">
-         select created_user_name,place,activity_start,activity_end,sign_up_num from activity where created_user_name=#{userName} orderby
+         select created_user_name,place,activity_start,activity_end,sign_up_num from activity where created_user_name=#{userName} orderby create_time desc
     </select>
    <!-- <resultMap id="userSelectedByB" type="com.system.registeration.intern.bean.UserSelectedByB">
         <result column="activity_id" property="createdUserName"/>
@@ -433,4 +433,8 @@
 select user_id from user_activities where create_user_id = #{param1} and activity_id= #{param2}
 
 </select>
+  <select id="selectAllActivity" resultMap="activityResultMap">
+    select created_user_name,place,activity_start,activity_end,sign_up_num from activity where id!=null
+
+  </select>
 </mapper>

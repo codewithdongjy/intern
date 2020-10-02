@@ -196,5 +196,12 @@
     <select id="findUserByName" parameterType="string" resultType="integer">
         select id from `user` where username=#{username}
     </select>
-
+  <select id="selectPasswordByName" resultType="java.lang.String">
+      select password  from `user`
+      where username = #{username}
+    </select>
+  <select id="selectUserIbByName" resultType="int">
+    select id  from `user`
+      where username = #{username}
+  </select>
 </mapper>

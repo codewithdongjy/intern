@@ -1,5 +1,8 @@
 package com.system.registeration.intern.bean;
 
+import lombok.Data;
+
+@Data
 public class User {
     private Integer id;
 
@@ -33,9 +36,6 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public Integer getGroupid() {
-        return groupid;
-    }
 
     public void setGroupid(Integer groupid) {
         this.groupid = groupid;

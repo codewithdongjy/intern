@@ -116,6 +116,20 @@ List<UserSelectedByB> userList=new LinkedList<>();
             baseRespVo.setMsg("成功");
             return baseRespVo;
         }
+
+    /**
+     * p端用户查看所有的活动
+     * @return
+     */
+    @Override
+    public BaseRespVo selectPActivity() {
+        List<Activity> activity=activityMapper.selectAllActivity();
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setData(activity);
+        baseRespVo.setErrno(0);
+        baseRespVo.setMsg("成功");
+        return baseRespVo;
+    }
     /**
      * B端用户查看
      * @param userId
